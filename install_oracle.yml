@@ -4,10 +4,18 @@
   become: yes
 
   tasks:
+    - name: Notify starting the zip file copy
+      debug:
+        msg: "Starting to copy oracle-19c zip file to destination"
+
     - name: Copy oracle-19c zip file to destination
       copy:
         src: /home/V982063-01.zip
         dest: /home/oracle/
+
+    - name: Notify completion of the zip file copy
+      debug:
+        msg: "Completed copying oracle-19c zip file to /home/oracle/"
 
     - name: Unzip oracle-19c
       unarchive:
@@ -27,12 +35,17 @@
       copy:
         src: /u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp
         dest: /u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp_original
+        remote_src: yes
       become_user: oracle
 
     - name: Set environment variable for Oracle installation
       shell: export CV_ASSUME_DISTID=OEL7.6
       args:
         executable: /bin/bash
+
+    - name: Notify starting Oracle 19c installation
+      debug:
+        msg: "Starting Oracle 19c installation in silent mode"
 
     - name: Installing Oracle 19c in silent mode
       shell: ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp \
@@ -72,6 +85,10 @@
       become_user: oracle
       environment:
         CV_ASSUME_DISTID: OEL7.6
+
+    - name: Notify Oracle 19c installation completion
+      debug:
+        msg: "Oracle 19c installation completed in silent mode"
 
     - name: Execute oraInstRoot.sh script
       command: /u01/app/oraInventory/orainstRoot.sh
