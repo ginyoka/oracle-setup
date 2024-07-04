@@ -99,6 +99,8 @@
        oracle.install.db.config.starterdb.managementOption=DEFAULT  \
        oracle.install.db.config.starterdb.enableRecovery=true  \
        oracle.install.db.config.starterdb.storageType=FILE_SYSTEM_STORAGE  \
+       SECURITY_UPDATES_VIA_MYORACLESUPPORT=false  \
+       DECLINE_SECURITY_UPDATES=true  \
        oracle.install.db.config.starterdb.fileSystemStorage.dataLocation=/data/oradata \
        oracle.install.db.config.starterdb.fileSystemStorage.recoveryLocation=/data/recovery
       become_user: oracle
