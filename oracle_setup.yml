@@ -130,7 +130,7 @@
         - /u01/app/oracle/product/19.0.0/dbhome_1
         - /u02/oradata
         
-    - name: Create scripts directory
+- name: Create scripts directory
       file:
         path: /home/oracle/scripts
         state: directory
@@ -160,9 +160,13 @@
 
           export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
           export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
-      owner: oracle
-      group: oinstall
-      mode: '0755'
+
+    - name: Set permissions for setEnv.sh
+      file:
+        path: /home/oracle/scripts/setEnv.sh
+        owner: oracle
+        group: oinstall
+        mode: '0755'
 
     - name: Add reference to setEnv.sh in .bash_profile
       lineinfile:
@@ -184,9 +188,13 @@
           export ORAENV_ASK=YES
 
           dbstart $ORACLE_HOME
-      owner: oracle
-      group: oinstall
-      mode: '0755'
+
+    - name: Set permissions for start_all.sh
+      file:
+        path: /home/oracle/scripts/start_all.sh
+        owner: oracle
+        group: oinstall
+        mode: '0755'
 
     - name: Create stop_all.sh
       copy:
@@ -200,6 +208,10 @@
           export ORAENV_ASK=YES
 
           dbshut $ORACLE_HOME
-      owner: oracle
-      group: oinstall
-      mode: '0755'
+
+    - name: Set permissions for stop_all.sh
+      file:
+        path: /home/oracle/scripts/stop_all.sh
+        owner: oracle
+        group: oinstall
+        mode: '0755'
