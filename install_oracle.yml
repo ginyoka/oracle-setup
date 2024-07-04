@@ -4,10 +4,10 @@
   become: yes
 
   tasks:
-   - name: Install required libraries
-     yum:
-      name: libnsl
-      state: present
+    - name: Install required libraries
+      yum:
+       name: libnsl
+       state: present
         
     - name: Check if oracle-19c zip file exists
       stat:
