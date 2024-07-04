@@ -1,0 +1,77 @@
+---
+- name: Oracle Database 19c Installation
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Copy oracle-19c
+      copy:
+        dest: /home/
+        content: |
+         ./V982063-01.zip
+
+
+    - name: Unzip oracle-19c
+      command: unzip /home/V982063-01.zip -d /u01/app/oracle/product/19.0.0/dbhome_1/
+
+    - name: Ensure permissions and ownership for /u01/app/oracle/product/19.0.0/dbhome_1/ directory
+      file:
+        path: /u01/app/oracle/product/19.0.0/dbhome_1/*
+        owner: oracle
+        group: oinstall
+        mode: '0775'
+
+    - name: Backup configuration file
+      copy:
+        src: /u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp
+        dest: /u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp_original
+      become_user: oracle
+
+    - name: Fake oracle Linux 7
+      command: export CV_ASSUME_DISTID=OEL7.6
+
+    - name: Installing oracle-19c in silent mode
+      command: ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp \
+       oracle.install.option=INSTALL_DB_SWONLY \
+       UNIX_GROUP_NAME=oinstall \
+       INVENTORY_LOCATION=/u01/app/oraInventory \
+       SELECTED_LANGUAGES=en,en_GB \
+       ORACLE_HOME=/u01/app/oracle/product/19.0.0/dbhome_1 \
+       ORACLE_BASE=/u01/app/oracle \
+       oracle.install.db.installEdition=EE  \
+       oracle.install.db.OSDBA_GROUP=oinstall  \
+       oracle.install.db.OSOPER_GROUP=oinstall \
+       oracle.install.db.OSBACKUPDBA_GROUP=oinstall \
+       oracle.install.db.OSDGDBA_GROUP=oinstall \
+       oracle.install.db.OSKMDBA_GROUP=oinstall \
+       oracle.install.db.OSRACDBA_GROUP=oinstall  \
+       oracle.install.db.rootconfig.executeRootScript=false  \
+       oracle.install.db.config.starterdb.type=GENERAL_PURPOSE \
+       oracle.install.db.config.starterdb.globalDBName=orcldb \
+       oracle.install.db.config.starterdb.SID=orcl  \
+       oracle.install.db.ConfigureAsContainerDB=true \
+       oracle.install.db.config.PDBName=pdb1  \
+       oracle.install.db.config.starterdb.characterSet=AL32UTF8  \
+       oracle.install.db.config.starterdb.memoryOption=true  \
+       oracle.install.db.config.starterdb.memoryLimit=1024 \
+       oracle.install.db.config.starterdb.installExampleSchemas=true  \
+       oracle.install.db.config.starterdb.password.ALL=oracle1234  \
+       oracle.install.db.config.starterdb.password.SYS=oracle1234  \
+       oracle.install.db.config.starterdb.password.SYSTEM=oracle1234 \
+       oracle.install.db.config.starterdb.password.DBSNMP=oracle1234  \
+       oracle.install.db.config.starterdb.password.PDBADMIN=oracle1234 \
+       oracle.install.db.config.starterdb.managementOption=DEFAULT  \
+       oracle.install.db.config.starterdb.enableRecovery=true  \
+       oracle.install.db.config.starterdb.storageType=FILE_SYSTEM_STORAGE  \
+       oracle.install.db.config.starterdb.fileSystemStorage.dataLocation=/data/oradata \
+       oracle.install.db.config.starterdb.fileSystemStorage.recoveryLocation=/data/recovery
+      become_user: oracle
+        
+    - name: execute oraInstRoot
+      command: /u01/app/oraInventory/orainstRoot.sh
+      become: yes
+
+    - name: execute root.sh
+      command: /u01/app/oracle/product/19.0.0/dbhome_1/root.sh
+      become: yes
+    
