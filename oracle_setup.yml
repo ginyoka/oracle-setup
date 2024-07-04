@@ -76,7 +76,7 @@
           - sysstat
           - gcc
           - unixODBC
-          - libnsl
+          - libnsl*
           - libnsl.i686
           - libnsl2
           - libnsl2.i686
