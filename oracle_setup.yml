@@ -129,4 +129,77 @@
       loop:
         - /u01/app/oracle/product/19.0.0/dbhome_1
         - /u02/oradata
+        
+    - name: Create scripts directory
+      file:
+        path: /home/oracle/scripts
+        state: directory
+        owner: oracle
+        group: oinstall
+        mode: '0755'
 
+    - name: Create setEnv.sh
+      copy:
+        dest: /home/oracle/scripts/setEnv.sh
+        content: |
+          # Oracle Settings
+          export TMP=/tmp
+          export TMPDIR=$TMP
+
+          export ORACLE_HOSTNAME=ol8-19.localdomain
+          export ORACLE_UNQNAME=cdb1
+          export ORACLE_BASE=/u01/app/oracle
+          export ORACLE_HOME=$ORACLE_BASE/product/19.0.0/dbhome_1
+          export ORA_INVENTORY=/u01/app/oraInventory
+          export ORACLE_SID=cdb1
+          export PDB_NAME=pdb1
+          export DATA_DIR=/u02/oradata
+
+          export PATH=/usr/sbin:/usr/local/bin:$PATH
+          export PATH=$ORACLE_HOME/bin:$PATH
+
+          export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
+          export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+      owner: oracle
+      group: oinstall
+      mode: '0755'
+
+    - name: Add reference to setEnv.sh in .bash_profile
+      lineinfile:
+        path: /home/oracle/.bash_profile
+        line: '. /home/oracle/scripts/setEnv.sh'
+        owner: oracle
+        group: oinstall
+        create: yes
+
+    - name: Create start_all.sh
+      copy:
+        dest: /home/oracle/scripts/start_all.sh
+        content: |
+          #!/bin/bash
+          . /home/oracle/scripts/setEnv.sh
+
+          export ORAENV_ASK=NO
+          . oraenv
+          export ORAENV_ASK=YES
+
+          dbstart $ORACLE_HOME
+      owner: oracle
+      group: oinstall
+      mode: '0755'
+
+    - name: Create stop_all.sh
+      copy:
+        dest: /home/oracle/scripts/stop_all.sh
+        content: |
+          #!/bin/bash
+          . /home/oracle/scripts/setEnv.sh
+
+          export ORAENV_ASK=NO
+          . oraenv
+          export ORAENV_ASK=YES
+
+          dbshut $ORACLE_HOME
+      owner: oracle
+      group: oinstall
+      mode: '0755'
