@@ -48,7 +48,7 @@
         msg: "Starting Oracle 19c installation in silent mode"
 
     - name: Installing Oracle 19c in silent mode
-      shell: ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp \
+      shell: /u01/app/oracle/product/19.0.0/dbhome_1/runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp \
        oracle.install.option=INSTALL_DB_SWONLY \
        UNIX_GROUP_NAME=oinstall \
        INVENTORY_LOCATION=/u01/app/oraInventory \
