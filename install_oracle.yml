@@ -8,6 +8,11 @@
       yum:
        name: libnsl
        state: present
+       
+    - name: Install make utility
+      yum:
+        name: make
+        state: present
         
     - name: Check if oracle-19c zip file exists
       stat:
@@ -97,6 +102,8 @@
        oracle.install.db.config.starterdb.fileSystemStorage.dataLocation=/data/oradata \
        oracle.install.db.config.starterdb.fileSystemStorage.recoveryLocation=/data/recovery
       become_user: oracle
+      args:
+        chdir: /u01/app/oracle/product/19.0.0/dbhome_1/
       environment:
         CV_ASSUME_DISTID: OEL7.6
 
