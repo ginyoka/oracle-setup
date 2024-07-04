@@ -8,7 +8,7 @@
       copy:
         dest: /home/
         content: |
-         ./V982063-01.zip
+         /home/V982063-01.zip
 
 
     - name: Unzip oracle-19c
