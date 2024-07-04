@@ -129,6 +129,20 @@
       loop:
         - /u01/app/oracle/product/19.0.0/dbhome_1
         - /data/oradata
+      
+    - name: Ensure permissions and ownership for /data directory
+      file:
+        path: /data
+        owner: oracle
+        group: oinstall
+        mode: '0775'
+        
+    - name: Ensure permissions and ownership for /u01 directory
+      file:
+        path: /data
+        owner: oracle
+        group: oinstall
+        mode: '0775'
         
     - name: Create scripts directory
       file:
