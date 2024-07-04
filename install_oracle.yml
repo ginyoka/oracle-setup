@@ -4,24 +4,33 @@
   become: yes
 
   tasks:
-    - name: Notify starting the zip file copy
-      debug:
-        msg: "Starting to copy oracle-19c zip file to destination"
+    - name: Check if oracle-19c zip file exists
+      stat:
+        path: /home/oracle/V982063-01.zip
+      register: zip_file
 
     - name: Copy oracle-19c zip file to destination
       copy:
         src: /home/V982063-01.zip
         dest: /home/oracle/
+      when: not zip_file.stat.exists
 
     - name: Notify completion of the zip file copy
       debug:
         msg: "Completed copying oracle-19c zip file to /home/oracle/"
+      when: not zip_file.stat.exists
+
+    - name: Check if Oracle is already unzipped
+      stat:
+        path: /u01/app/oracle/product/19.0.0/dbhome_1/runInstaller
+      register: oracle_unzipped
 
     - name: Unzip oracle-19c
       unarchive:
         src: /home/oracle/V982063-01.zip
         dest: /u01/app/oracle/product/19.0.0/dbhome_1/
         remote_src: yes
+      when: not oracle_unzipped.stat.exists
 
     - name: Ensure permissions and ownership for installation directory
       file:
