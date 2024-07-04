@@ -6,7 +6,9 @@
   tasks:
     - name: Install required libraries
       yum:
-       name: libnsl
+       name: 
+        - libnsl
+        - compat-libstdc++-33
        state: present
        
     - name: Install make utility
