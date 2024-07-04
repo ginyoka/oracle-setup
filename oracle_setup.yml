@@ -139,7 +139,7 @@
         
     - name: Ensure permissions and ownership for /u01 directory
       file:
-        path: /data
+        path: /u01
         owner: oracle
         group: oinstall
         mode: '0775'
