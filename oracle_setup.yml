@@ -130,7 +130,7 @@
         - /u01/app/oracle/product/19.0.0/dbhome_1
         - /u02/oradata
         
-- name: Create scripts directory
+    - name: Create scripts directory
       file:
         path: /home/oracle/scripts
         state: directory
