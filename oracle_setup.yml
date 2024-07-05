@@ -84,6 +84,7 @@
           - libnsl.i686
           - libnsl2
           - libnsl2.i686
+          - libnsl.so.1
         state: present
       ignore_errors: yes
 
