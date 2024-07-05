@@ -96,7 +96,7 @@
       become_user: oracle
       args:
         chdir: /u01/app/oracle/product/19.0.0/dbhome_1/
-      register: install_output
+ #     register: install_output
       changed_when: "'Successfully Setup Software' in install_output.stdout"
       failed_when: false
 
