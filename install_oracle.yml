@@ -105,13 +105,17 @@
         chdir: /u01/app/oracle/product/19.0.0/dbhome_1/
       environment:
         CV_ASSUME_DISTID: OEL7.6
-      changed_when: false
+      register: install_output
+      changed_when: "'Successfully Setup Software' in install_output.stdout"
       failed_when: false
 
+    - name: Extract response file name
+      set_fact:
+        response_file: "{{ install_output.stdout | regex_search('(?<=response\/)db_.*\.rsp') }}"
 
     - name: Notify Oracle 19c installation completion
       debug:
-        msg: "Oracle 19c installation completed in silent mode"
+        msg: "Oracle 19c installation completed in silent mode. Response file: {{ response_file }}"
 
     - name: Execute oraInstRoot.sh script
       command: /u01/app/oraInventory/orainstRoot.sh
@@ -120,3 +124,9 @@
     - name: Execute root.sh script
       command: /u01/app/oracle/product/19.0.0/dbhome_1/root.sh
       become: yes
+
+    - name: Run the newly generated response file
+      shell: /u01/app/oracle/product/19.0.0/dbhome_1/runInstaller -silent -responseFile /u01/app/oracle/product/19.0.0/dbhome_1/install/response/{{ response_file }}
+      become_user: oracle
+      args:
+        chdir: /u01/app/oracle/product/19.0.0/dbhome_1/
