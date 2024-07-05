@@ -172,7 +172,7 @@
           export ORA_INVENTORY=/u01/app/oraInventory
           export ORACLE_SID=cdb1
           export PDB_NAME=pdb1
-          export DATA_DIR=/u02/oradata
+          export DATA_DIR=/data/oradata
 
           export PATH=/usr/sbin:/usr/local/bin:$PATH
           export PATH=$ORACLE_HOME/bin:$PATH
