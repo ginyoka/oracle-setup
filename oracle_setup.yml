@@ -48,7 +48,6 @@
         name:
           - bc
           - binutils
-          - compat-libstdc++-33
           - elfutils-libelf
           - elfutils-libelf-devel
           - fontconfig-devel
@@ -84,7 +83,9 @@
           - libnsl.i686
           - libnsl2
           - libnsl2.i686
-          - libnsl.so.1
+          - libnsl.so.1 
+          - compat-libstdc++-33
+
         state: present
       ignore_errors: yes
 
