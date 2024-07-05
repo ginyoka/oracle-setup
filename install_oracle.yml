@@ -4,21 +4,21 @@
   become: yes
 
   tasks:
-    - name: Check if oracle-19c zip file exists
-      stat:
-        path: /home/V982063-01.zip
-      register: zip_file
+#    - name: Check if oracle-19c zip file exists
+#      stat:
+#        path: /home/V982063-01.zip
+#      register: zip_file
 
-    - name: Copy oracle-19c zip file to destination
-      copy:
-        src: /home/V982063-01.zip
-        dest: /home/
-      when: not zip_file.stat.exists
+#    - name: Copy oracle-19c zip file to destination
+#      copy:
+#        src: /home/V982063-01.zip
+#        dest: /home/
+#      when: not zip_file.stat.exists
 
-    - name: Notify completion of the zip file copy
-      debug:
-        msg: "Completed copying oracle-19c zip file to /home/oracle/"
-      when: not zip_file.stat.exists
+#   - name: Notify completion of the zip file copy
+#     debug:
+#       msg: "Completed copying oracle-19c zip file to /home/oracle/"
+#      when: not zip_file.stat.exists
 
     - name: Check if Oracle is already unzipped
       stat:
