@@ -83,7 +83,7 @@
           - libnsl.i686
           - libnsl2
           - libnsl2.i686
-          - compat-libstdc++-33
+#          - compat-libstdc++-33
         state: present
       ignore_errors: yes
 
