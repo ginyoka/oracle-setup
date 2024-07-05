@@ -27,7 +27,7 @@
 
     - name: Unzip oracle-19c
       unarchive:
-        src: /home/oracle/V982063-01.zip
+        src: /home/V982063-01.zip
         dest: /u01/app/oracle/product/19.0.0/dbhome_1/
         remote_src: yes
       when: not oracle_unzipped.stat.exists
