@@ -4,17 +4,12 @@
   become: yes
 
   tasks:
-    - name: Install required libraries
-      yum:
-       name: 
-        - libnsl
-        - compat-libstdc++-33
-       state: present
-       
-    - name: Install make utility
-      yum:
-        name: make
-        state: present
+#    - name: Install required libraries
+#      yum:
+#       name: 
+#        - libnsl
+#        - compat-libstdc++-33
+#       state: present
         
     - name: Check if oracle-19c zip file exists
       stat:
