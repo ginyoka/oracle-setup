@@ -83,11 +83,14 @@
           - libnsl.i686
           - libnsl2
           - libnsl2.i686
-          - libnsl.so.1 
           - compat-libstdc++-33
-
         state: present
       ignore_errors: yes
+
+    - name: Install additional required package
+      dnf:
+       name:
+        - libnsl.so.1
 
     - name: Create groups
       group:
