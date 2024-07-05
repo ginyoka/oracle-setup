@@ -4,22 +4,15 @@
   become: yes
 
   tasks:
-#    - name: Install required libraries
-#      yum:
-#       name: 
-#        - libnsl
-#        - compat-libstdc++-33
-#       state: present
-        
     - name: Check if oracle-19c zip file exists
       stat:
-        path: /home/oracle/V982063-01.zip
+        path: /home/V982063-01.zip
       register: zip_file
 
     - name: Copy oracle-19c zip file to destination
       copy:
         src: /home/V982063-01.zip
-        dest: /home/oracle/
+        dest: /home/
       when: not zip_file.stat.exists
 
     - name: Notify completion of the zip file copy
@@ -111,7 +104,7 @@
 
     - name: Extract response file name
       set_fact:
-        response_file: "{{ install_output.stdout | regex_search('(?<=response\/)db_.*\.rsp') }}"
+        response_file: "{{ install_output.stdout | regex_search('(?<=response\\/)(db_.*\\.rsp)') }}"
 
     - name: Notify Oracle 19c installation completion
       debug:
