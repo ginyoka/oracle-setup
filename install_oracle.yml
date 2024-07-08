@@ -47,20 +47,17 @@
         remote_src: yes
       become_user: oracle
 
-    - name: Set environment variable for Oracle installation
-      shell: export CV_ASSUME_DISTID=OEL7.6
-      args:
-        executable: /bin/bash
-      become_user: oracle
+    # - name: Set environment variable for Oracle installation
+    #   shell: export CV_ASSUME_DISTID=OEL7.6
+    #   args:
+    #     executable: /bin/bash
+    #   become_user: oracle
 
     - name: Installing Oracle 19c in silent mode
       shell: |
         export CV_ASSUME_DISTID=OEL7.6
         /u01/app/oracle/product/19.0.0/dbhome_1/runInstaller -ignorePrereq -waitforcompletion -silent -responseFile "/u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp" \
-             oracle.install.option=INSTALL_DB_SWONLY \
-             UNIX_GROUP_NAME=oinstall \
-             INVENTORY_LOCATION=/u01/app/oraInventory \
-             SELECTED_LANGUAGES=en,en_GB \
+             oracle.install.option=INSTALL_DB_SWONLY                                    \
              ORACLE_HOME=/u01/app/oracle/product/19.0.0/dbhome_1 \
              ORACLE_BASE=/u01/app/oracle \
              oracle.install.db.installEdition=EE  \
@@ -70,6 +67,9 @@
              oracle.install.db.OSDGDBA_GROUP=oinstall \
              oracle.install.db.OSKMDBA_GROUP=oinstall \
              oracle.install.db.OSRACDBA_GROUP=oinstall  \
+             UNIX_GROUP_NAME=oinstall \
+             INVENTORY_LOCATION=/u01/app/oraInventory \
+             SELECTED_LANGUAGES=en,en_GB \
              oracle.install.db.rootconfig.executeRootScript=false  \
              oracle.install.db.config.starterdb.type=GENERAL_PURPOSE \
              oracle.install.db.config.starterdb.globalDBName=orcldb \
