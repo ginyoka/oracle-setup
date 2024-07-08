@@ -47,17 +47,16 @@
         remote_src: yes
       become_user: oracle
 
-    - name: Set environment variable for Oracle installation
+        - name: Set environment variable for Oracle installation
       shell: export CV_ASSUME_DISTID=OEL7.6
       args:
         executable: /bin/bash
-
-    - name: Notify starting Oracle 19c installation
-      debug:
-        msg: "Starting Oracle 19c installation in silent mode"
+      become_user: oracle
 
     - name: Installing Oracle 19c in silent mode
-      shell: /u01/app/oracle/product/19.0.0/dbhome_1/runInstaller -ignorePrereq -waitforcompletion -silent -responseFile "/u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp" \
+      shell: |
+        export CV_ASSUME_DISTID=OEL7.6
+        /u01/app/oracle/product/19.0.0/dbhome_1/runInstaller -ignorePrereq -waitforcompletion -silent -responseFile "/u01/app/oracle/product/19.0.0/dbhome_1/install/response/db_install.rsp" \
              oracle.install.option=INSTALL_DB_SWONLY \
              UNIX_GROUP_NAME=oinstall \
              INVENTORY_LOCATION=/u01/app/oraInventory \
@@ -96,9 +95,10 @@
       become_user: oracle
       args:
         chdir: /u01/app/oracle/product/19.0.0/dbhome_1/
- #     register: install_output
+      register: install_output
       changed_when: "'Successfully Setup Software' in install_output.stdout"
       failed_when: false
+
 
     - name: Extract response file name
       set_fact:
