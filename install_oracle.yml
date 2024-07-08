@@ -47,7 +47,7 @@
         remote_src: yes
       become_user: oracle
 
-        - name: Set environment variable for Oracle installation
+    - name: Set environment variable for Oracle installation
       shell: export CV_ASSUME_DISTID=OEL7.6
       args:
         executable: /bin/bash
